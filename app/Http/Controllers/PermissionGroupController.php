@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\PermissionGroup;
 use Illuminate\Http\Request;
-use App\Models\Permission;
-class PermissionController extends Controller
+
+class PermissionGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return view('admin.views.permissions.permission');
+        //
     }
 
     /**
@@ -23,7 +24,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('admin.views.permissions.permission-create');
+        //
     }
 
     /**
@@ -34,24 +35,16 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $permission         = new Permission;
-        $permission->name   = $request->name;
-        if ($permission->save()) {
-            $request->session()->flash('alert-success', 'Permission created successfully!');
-        } else {
-            $request->session()->flash('alert-success', 'Permission create Failed!');
-        }
-        return redirect('permissions');
-        
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\PermissionGroup  $permissionGroup
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(PermissionGroup $permissionGroup)
     {
         //
     }
@@ -59,10 +52,10 @@ class PermissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\PermissionGroup  $permissionGroup
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(PermissionGroup $permissionGroup)
     {
         //
     }
@@ -71,10 +64,10 @@ class PermissionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\PermissionGroup  $permissionGroup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, PermissionGroup $permissionGroup)
     {
         //
     }
@@ -82,10 +75,10 @@ class PermissionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\PermissionGroup  $permissionGroup
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PermissionGroup $permissionGroup)
     {
         //
     }

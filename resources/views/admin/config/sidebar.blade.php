@@ -4,7 +4,7 @@
           <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
               <div class="nav-profile-image">
-                <img src="images/faces/face1.jpg" alt="profile">
+                <img src="{{ asset('images/faces/face1.jpg') }}" alt="profile">
                 <span class="login-status online"></span> <!--change to offline or busy as needed-->              
               </div>
               <div class="nav-profile-text d-flex flex-column">
@@ -37,8 +37,9 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{{url('roles')}}">Roles</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{url('permissions')}}">Permissions</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{url('permissions')}}">Permissions Groups</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{url('roles')}}">Roles</a></li>
               </ul>
             </div>
           </li>
