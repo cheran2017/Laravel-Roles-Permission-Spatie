@@ -56,8 +56,33 @@
                       </tr>
                     </thead>
                     <tbody>
-                      
+                        @if(count($data['permissions']) > 0)
+                          @foreach($data['permissions'] as $permission)
+                          <tr><td>{{$permission->id}}</td>
+                              <td>{{$permission->name}}</td>
+                              <td>
+                                <a href="/permissions/{{ $permission->id }}" class="btn btn-sm btn-warning ">
+                                  <i class="mdi mdi-grease-pencil" aria-hidden="true"></i>
+                                </a>
+                                <form method="POST" action="{{url('permissions')}}/{{$permission->id}}">
+                                  {{ method_field('DELETE') }}
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-sm btn-danger "><i class="mdi mdi-close-circle" aria-hidden="true"></i></button>
+                                </form>
+                              </td>
+                          </tr>
+                          @endforeach
+                        @else
+                          <tr>
+                            <td colspan="3">No Records Found</td>
+                          </tr>
+                        @endif
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="3" >{{$data['permissions']->links()}}</td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>

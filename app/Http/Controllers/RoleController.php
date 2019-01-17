@@ -19,9 +19,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::orderBy('id','desc')->with('permissions')->get();
+        $roles = Role::orderBy('id','desc')->paginate(5);
         $data['roles'] = $roles;
-        return view('admin.views.role')->with('data',$data);
+        return view('admin.views.roles.role')->with('data',$data);
     }
 
     /**
@@ -31,7 +31,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('admin.views.roles.role-create');
     }
 
     /**
@@ -42,7 +43,14 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $role         = new Role;
+        $role->name   = $request->name;
+        if ($role->save()) {
+            $request->session()->flash('alert-success', 'Role created successfully!');
+        } else {
+            $request->session()->flash('alert-success', 'Role create Failed!');
+        }
+        return redirect('roles');
     }
 
     /**
@@ -53,7 +61,9 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = Role::find($id);
+        $data        = [ 'role' => $role ];
+        return view('admin.views.roles.role-edit')->with('data',$data);
     }
 
     /**
@@ -76,7 +86,14 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role         = Role::find($id);
+        $role->name   = $request->name;
+        if ($role->save()) {
+            $request->session()->flash('alert-success', 'Role updated successfully!');
+        } else {
+            $request->session()->flash('alert-success', 'Role update Failed!');
+        }
+        return redirect('roles');
     }
 
     /**
@@ -85,8 +102,14 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $role         = Role::find($id);
+        if ($role->delete()) {
+            $request->session()->flash('alert-success', 'Role deleted successfully!');
+        } else {
+            $request->session()->flash('alert-danger', 'Role deletion Failed!');
+        }
+        return redirect('roles');
     }
 }

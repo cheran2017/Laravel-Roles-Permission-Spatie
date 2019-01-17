@@ -23,12 +23,12 @@
               <span class="page-title-icon bg-gradient-primary text-white mr-2">
                 <i class="mdi mdi-home"></i>                 
               </span>
-              Permissions
+              Permissions Group
             </h3>
             <nav aria-label="breadcrumb">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">
-                  <span></span>Permissions Create
+                  <span></span>Permissions Group Create
                   <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                 </li>
               </ul>
@@ -39,36 +39,33 @@
             <div class="col-lg-12 stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Permissions</h4>
+                  <h4 class="card-title">Permissions Group</h4>
                   <p class="card-description">
                     Permission Create
                   </p>
-                  <form class="forms-sample" action="{{url('permissions')}}" method="POST">
+                  <form class="forms-sample" action="{{url('permissions-groups')}}" method="POST">
                     @csrf
                     <div class="form-group">
                       <label for="exampleInputName1">Name</label>
                       <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
                     </div>
-                    <!-- <div class="form-group">
-                      <label class="">Permission Group</label>
-                        <select class="form-control" name="permission_group">
-                          <option>Category1</option>
-                          <option>Category2</option>
-                          <option>Category3</option>
-                          <option>Category4</option>
-                        </select>
-                    </div> -->
-                    <!-- <div class="form-group">
-                      <label class="">Role</label>
-                        <select class="form-control" name="role">
-                          <option>Category1</option>
-                          <option>Category2</option>
-                          <option>Category3</option>
-                          <option>Category4</option>
-                        </select>
-                    </div> -->
+                    <div class="row">
+                        @if(count($data['permissions']) >0)
+                          @foreach($data['permissions'] as $permission)
+                          <div class="col-md-4">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="permission_ids[]" value="{{$permission->id}}">
+                                {{$permission->name}}
+                              </label>
+                            </div>
+                          </div>
+                          @endforeach
+                        @endif
+                    </div>
+                    <br>
                     <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
-                    <a href="{{url('permissions')}}"  class="btn btn-light">Cancel</a>
+                    <a href="{{url('permissions-groups')}}"  class="btn btn-light">Cancel</a>
                   </form>
                 </div>
               </div>

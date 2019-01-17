@@ -34,9 +34,17 @@
               </ul>
             </nav>
           </div>
+          @include('admin.config.flash')
           <div class="row">
             <div class="col-lg-12 stretch-card">
               <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <a href="{{url('roles/create')}}" class="btn btn-primary text-right">Create Role</a>
+                      </div>
+                    </div>
+                </div>
                 <div class="card-body">
                   <h4 class="card-title">Roles List</h4>
                   <table class="table table-bordered">
@@ -48,8 +56,33 @@
                       </tr>
                     </thead>
                     <tbody>
-                      
+                        @if(count($data['roles']) > 0)
+                          @foreach($data['roles'] as $permission)
+                          <tr><td>{{$permission->id}}</td>
+                              <td>{{$permission->name}}</td>
+                              <td>
+                                <a href="/roles/{{ $permission->id }}" class="btn btn-sm btn-warning ">
+                                  <i class="mdi mdi-grease-pencil" aria-hidden="true"></i>
+                                </a>
+                                <form method="POST" action="{{url('roles')}}/{{$permission->id}}">
+                                  {{ method_field('DELETE') }}
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-sm btn-danger "><i class="mdi mdi-close-circle" aria-hidden="true"></i></button>
+                                </form>
+                              </td>
+                          </tr>
+                          @endforeach
+                        @else
+                          <tr>
+                            <td colspan="3">No Records Found</td>
+                          </tr>
+                        @endif
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="3" >{{$data['roles']->links()}}</td>
+                      </tr>
+                    </tfoot>
                   </table>
                 </div>
               </div>

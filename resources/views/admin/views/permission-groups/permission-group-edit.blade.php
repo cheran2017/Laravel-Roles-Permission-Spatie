@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Permissions Create </title>
+  <title>Permissions Edit </title>
   @include('admin.config.app-css')
 </head>
 <body>
@@ -28,7 +28,7 @@
             <nav aria-label="breadcrumb">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">
-                  <span></span>Permissions Create
+                  <span></span>Permission Group Edit
                   <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                 </li>
               </ul>
@@ -39,36 +39,38 @@
             <div class="col-lg-12 stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Permissions</h4>
+                  <h4 class="card-title">Permission Group</h4>
                   <p class="card-description">
-                    Permission Create
+                    Permission Group Edit
                   </p>
-                  <form class="forms-sample" action="{{url('permissions')}}" method="POST">
+                  <form class="forms-sample" action="{{url('permissions-groups')}}/{{$data['permission_group']->id}}" method="POST">
                     @csrf
+                    {{ method_field('PUT') }}
                     <div class="form-group">
                       <label for="exampleInputName1">Name</label>
-                      <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
+                      <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name" value="{{$data['permission_group']->name}}">
                     </div>
-                    <!-- <div class="form-group">
-                      <label class="">Permission Group</label>
-                        <select class="form-control" name="permission_group">
-                          <option>Category1</option>
-                          <option>Category2</option>
-                          <option>Category3</option>
-                          <option>Category4</option>
-                        </select>
-                    </div> -->
-                    <!-- <div class="form-group">
-                      <label class="">Role</label>
-                        <select class="form-control" name="role">
-                          <option>Category1</option>
-                          <option>Category2</option>
-                          <option>Category3</option>
-                          <option>Category4</option>
-                        </select>
-                    </div> -->
+                    <div class="row">
+                        @if(count($data['permissions']) >0)
+                          @foreach($data['permissions'] as $permission)
+                          <div class="col-md-4">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" name="permission_ids[]" value="{{$permission->id}}"
+                                  @if(in_array($permission->id,$data['permission_ids']))
+                                    checked="checked"
+                                  @endif
+                                >
+                                {{$permission->name}}
+                              </label>
+                            </div>
+                          </div>
+                          @endforeach
+                        @endif
+                    </div>
+                    <br>
                     <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
-                    <a href="{{url('permissions')}}"  class="btn btn-light">Cancel</a>
+                    <a href="{{url('permissions-groups')}}"  class="btn btn-light">Cancel</a>
                   </form>
                 </div>
               </div>

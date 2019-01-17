@@ -13,7 +13,9 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        return view('admin.views.permissions.permission');
+        $permissions = Permission::paginate(5);
+        $data        = [ 'permissions' => $permissions ];
+        return view('admin.views.permissions.permission')->with('data',$data);
     }
 
     /**
@@ -53,7 +55,10 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        //
+        $permission = Permission::find($id);
+        $data        = [ 'permission' => $permission ];
+        return view('admin.views.permissions.permission-edit')->with('data',$data);
+
     }
 
     /**
@@ -76,7 +81,14 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $permission         = Permission::find($id);
+        $permission->name   = $request->name;
+        if ($permission->save()) {
+            $request->session()->flash('alert-success', 'Permission updated successfully!');
+        } else {
+            $request->session()->flash('alert-success', 'Permission updation Failed!');
+        }
+        return redirect('permissions');
     }
 
     /**
@@ -85,8 +97,14 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
-        //
+        $permission         = Permission::find($id);
+        if ($permission->delete()) {
+            $request->session()->flash('alert-success', 'Permission deleted successfully!');
+        } else {
+            $request->session()->flash('alert-danger', 'Permission deletion Failed!');
+        }
+        return redirect('permissions');
     }
 }
