@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Roles</title>
+  <title>Users</title>
   @include('admin.config.app-css')
 </head>
 <body>
@@ -23,12 +23,12 @@
               <span class="page-title-icon bg-gradient-primary text-white mr-2">
                 <i class="mdi mdi-home"></i>                 
               </span>
-              Roles
+              Users
             </h3>
             <nav aria-label="breadcrumb">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">
-                  <span></span>Roles List
+                  <span></span>Users List
                   <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                 </li>
               </ul>
@@ -41,36 +41,38 @@
                 <div class="card-header">
                     <div class="row">
                       <div class="col-md-12">
-                        <a href="{{url('roles/create')}}" class="btn btn-primary text-right">Create Role</a>
+                        <a href="{{url('users/create')}}" class="btn btn-primary text-right">Create User</a>
                       </div>
                     </div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title">Roles List</h4>
+                  <h4 class="card-title">Users List</h4>
                   <table class="table table-bordered">
                     <thead>
                       <tr>
                         <th>name</th>
-                        <th>permissions</th>
+                        <th>email</th>
+                        <th>Role</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                        @if(count($data['roles']) > 0)
-                          @foreach($data['roles'] as $role)
+                        @if(count($data['users']) > 0)
+                          @foreach($data['users'] as $user)
                           <tr>
-                              <td>{{$role->name}}</td>
+                              <td>{{$user->name}}</td>
+                              <td>{{$user->email}}</td>
                               <td>
-                                @if(count($role->permissions->pluck('name')) > 0)
-                                  {{implode(",",$role->permissions->pluck('name')->toArray())}}
+                                @if(count($user->getRoleNames()->pluck('name')) > 0)
+                                  {{implode(",",$user->getRoleNames()->toArray())}}
                                 @else
-                                  No permissions
+                                  No Role Assigned
                                 @endif
                               <td>
-                                <a href="/roles/{{ $role->id }}" class="btn btn-sm btn-warning ">
+                                <a href="/users/{{ $user->id }}" class="btn btn-sm btn-warning ">
                                   <i class="mdi mdi-grease-pencil" aria-hidden="true"></i>
                                 </a>
-                                <form method="POST" action="{{url('roles')}}/{{$role->id}}">
+                                <form method="POST" action="{{url('roles')}}/{{$user->id}}">
                                   {{ method_field('DELETE') }}
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <button type="submit" class="btn btn-sm btn-danger "><i class="mdi mdi-close-circle" aria-hidden="true"></i></button>
@@ -86,7 +88,7 @@
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colspan="3" >{{$data['roles']->links()}}</td>
+                        <td colspan="3" >{{$data['users']->links()}}</td>
                       </tr>
                     </tfoot>
                   </table>

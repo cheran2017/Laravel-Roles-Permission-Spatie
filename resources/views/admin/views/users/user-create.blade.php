@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Roles Create </title>
+  <title>Users Create </title>
   @include('admin.config.app-css')
 </head>
 <body>
@@ -23,12 +23,12 @@
               <span class="page-title-icon bg-gradient-primary text-white mr-2">
                 <i class="mdi mdi-home"></i>                 
               </span>
-              Roles
+              Users
             </h3>
             <nav aria-label="breadcrumb">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">
-                  <span></span>Roles Create
+                  <span></span>Users Create
                   <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                 </li>
               </ul>
@@ -39,22 +39,35 @@
             <div class="col-lg-12 stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Roles</h4>
+                  <h4 class="card-title">Users</h4>
                   <p class="card-description">
-                    Role Create
+                    User Create
                   </p>
-                  <form class="forms-sample" action="{{url('roles')}}" method="POST">
+                  <form class="forms-sample" action="{{url('users')}}" method="POST">
                     @csrf
                     <div class="form-group">
                       <label for="exampleInputName1">Name</label>
-                      <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name">
+                      <input type="text" class="form-control" id="exampleInputName1" name="name" placeholder="Name" value="{{old('name')}}">
                     </div>
                     <div class="form-group">
-                      <label class="">Permission Group</label>
-                        <select class="form-control" name="permission_groups_ids[]" multiple="multiple">
-                          @if(count($data['permission_groups']) >0)
-                            @foreach($data['permission_groups'] as $permission_group)
-                              <option value="{{$permission_group->id}}" style="font-size: 23px;">{{$permission_group->name}}</option>
+                      <label for="exampleInputName1">Email</label>
+                      <input type="text" class="form-control" id="exampleInputName1" name="email" placeholder="Email" value="{{old('email')}}">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputName1">Password</label>
+                      <input type="password" class="form-control" id="exampleInputName1" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputName1">Confirm Password</label>
+                      <input type="password" class="form-control" id="exampleInputName1" name="password_confirmation" placeholder="Confirmpassword">
+                    </div>
+                    <div class="form-group">
+                      <label class="">Roles</label>
+                        <select class="form-control" name="role_id">
+                          <option value="">SELECT ROLE</option>
+                          @if(count($data['roles']) >0)
+                            @foreach($data['roles'] as $role)
+                              <option value="{{$role->id}}" style="font-size: 23px;">{{$role->name}}</option>
                             @endforeach
                           @endif
                         </select>

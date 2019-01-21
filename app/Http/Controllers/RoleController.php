@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\User;
 use App\Models\Role;
 use App\Models\Permission;
+use App\Models\PermissionGroup;
 
 class RoleController extends Controller
 {
@@ -31,8 +32,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        
-        return view('admin.views.roles.role-create');
+        $permission_groups = PermissionGroup::all();
+        $data    =  [ 'permission_groups' => $permission_groups ];
+        return view('admin.views.roles.role-create')->with('data',$data);
     }
 
     /**
@@ -46,6 +48,21 @@ class RoleController extends Controller
         $role         = new Role;
         $role->name   = $request->name;
         if ($role->save()) {
+            if (isset($request->permission_groups_ids)) {
+                if (count($request->permission_groups_ids) > 0 ) {
+                    foreach ($request->permission_groups_ids as $key => $permission_groups_id) {
+                        $permission_group = PermissionGroup::find($permission_groups_id);
+                        if (!empty($permission_group)) {
+                            if (count($permission_group->permission_ids) > 0) {
+                                foreach ($permission_group->permission_ids as $key => $permission) {
+                                    $permission = Permission::find($permission);
+                                    $role->givePermissionTo($permission);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             $request->session()->flash('alert-success', 'Role created successfully!');
         } else {
             $request->session()->flash('alert-success', 'Role create Failed!');
@@ -62,7 +79,9 @@ class RoleController extends Controller
     public function show($id)
     {
         $role = Role::find($id);
-        $data        = [ 'role' => $role ];
+        $permission_groups = PermissionGroup::all();
+        $permission_groups_ids = PermissionGroup::pluck('id')->toArray();
+        $data        = [ 'role' => $role, 'permission_groups' => $permission_groups, 'permission_group_ids' => $permission_groups_ids ];
         return view('admin.views.roles.role-edit')->with('data',$data);
     }
 

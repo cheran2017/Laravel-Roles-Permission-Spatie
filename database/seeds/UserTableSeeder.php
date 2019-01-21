@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\User;
 class UserTableSeeder extends Seeder
 {
     /**
@@ -13,12 +13,9 @@ class UserTableSeeder extends Seeder
     {
         $rows = [
             [
-                'first_name' => 'Super Admin',
+                'name' => 'Super Admin',
                 'email'      => 'admin@gmail.com',
-                'role_id'    => 1,
-                'password'   => bcrypt('sst123'),
-                'company_ids' => [1],
-                'username'    => 'SST000'
+                'password'   => bcrypt('qwerty'),
             ],
          ];
         $seedCount = 0;
@@ -27,7 +24,8 @@ class UserTableSeeder extends Seeder
         echo "--------------------------------------------------"."\n";
         foreach ($rows as $row) {
             $user = User::firstOrnew(['email' => $row['email']]);
-            
+            $user->name = $row['name'];
+            $user->password = $row['password'];
             if($user->save()) {
                     $user->assignRole('Super Admin');
                     echo "User seeded" . $user->name . "\n";

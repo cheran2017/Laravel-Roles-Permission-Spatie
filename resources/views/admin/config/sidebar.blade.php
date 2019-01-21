@@ -14,21 +14,23 @@
               <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
             </a>
           </li>
+          @if(Auth::user()->hasPermissionTo('Dashboard'))
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="{{url('/home')}}">
               <span class="menu-title">Dashboard</span>
               <i class="mdi mdi-home menu-icon"></i>
             </a>
           </li>
-
+          @endif
+          @if(Auth::user()->hasPermissionTo('Users'))
           <li class="nav-item">
             <a class="nav-link" href="/users">
               <span class="menu-title">Users</span>
               <i class="mdi mdi-home menu-icon"></i>
             </a>
           </li>
-
-
+          @endif
+          @if(Auth::user()->hasPermissionTo('Roles') || Auth::user()->hasPermissionTo('Permissions') || Auth::user()->hasPermissionTo('Permission Groups'))
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-title">Roles and Permissions</span>
@@ -37,11 +39,18 @@
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
+                 @if(Auth::user()->hasPermissionTo('Permissions'))
                 <li class="nav-item"> <a class="nav-link" href="{{url('permissions')}}">Permissions</a></li>
+                @endif
+                 @if(Auth::user()->hasPermissionTo('Permission Groups'))
                 <li class="nav-item"> <a class="nav-link" href="{{url('permissions-groups')}}">Permissions Groups</a></li>
+                @endif
+                 @if(Auth::user()->hasPermissionTo('Roles'))
                 <li class="nav-item"> <a class="nav-link" href="{{url('roles')}}">Roles</a></li>
+                @endif
               </ul>
             </div>
           </li>
+          @endif
         </ul>
       </nav>

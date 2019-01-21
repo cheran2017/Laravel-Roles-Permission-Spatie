@@ -52,11 +52,16 @@
                     </div>
                     <div class="form-group">
                       <label class="">Permission Group</label>
-                        <select class="form-control" name="permission_group">
-                          <option>Category1</option>
-                          <option>Category2</option>
-                          <option>Category3</option>
-                          <option>Category4</option>
+                        <select class="form-control" name="permission_groups_ids[]" multiple="multiple">
+                          @if(count($data['permission_groups']) >0)
+                            @foreach($data['permission_groups'] as $permission_group)
+                              <option value="{{$permission_group->id}}" style="font-size: 23px;"
+                                 @if(in_array($permission_group->id,$data['permission_group_ids']))
+                                    selected="selected"
+                                  @endif
+                                >{{$permission_group->name}}</option>
+                            @endforeach
+                          @endif
                         </select>
                     </div>
                     <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
